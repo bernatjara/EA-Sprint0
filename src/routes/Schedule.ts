@@ -4,9 +4,9 @@ import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
 
 const router = express.Router();
 
-router.post('/create', ValidateSchema(Schemas.schedule.create), controller.createSchedule);
-router.get('/get/:scheduleId', controller.readSchedule);
-router.patch('/update/:scheduleId', ValidateSchema(Schemas.schedule.update), controller.updateSchedule);
-router.delete('/delete/:scheduleId', controller.deleteSchedule);
+router.post('/', ValidateSchema(Schemas.schedule.create), controller.createSchedule);
+router.get('/:scheduleId', controller.readSchedule);
+router.patch('/:scheduleId', ValidateSchema(Schemas.schedule.update), controller.updateSchedule);
+router.delete('/:scheduleId', controller.deleteSchedule);
 
 export = router;

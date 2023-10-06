@@ -4,10 +4,10 @@ import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
 
 const router = express.Router();
 
-router.post('/create', ValidateSchema(Schemas.user.create), controller.createUser);
-router.get('/get/:userId', controller.readUser);
-router.get('/get/', controller.readAll);
-router.patch('/update/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
-router.delete('/delete/:userId', controller.deleteUser);
+router.post('/', ValidateSchema(Schemas.user.create), controller.createUser);
+router.get('/:userId', controller.readUser);
+router.get('/', controller.readAll);
+router.patch('/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
+router.delete('/:userId', controller.deleteUser);
 
 export = router;
