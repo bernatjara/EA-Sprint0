@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 
 const createUser = (req: Request, res: Response, next: NextFunction) => {
-    const { name, password, email } = req.body;
+    const { name, password, email, asignatura } = req.body;
 
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
         name,
         password,
-        email
+        email,
+        asignatura
     });
 
     return user
@@ -23,6 +24,12 @@ const readUser = (req: Request, res: Response, next: NextFunction) => {
 
     return User.findById(userId)
         .then((user) => (user ? res.status(200).json({ user }) : res.status(404).json({ message: 'Not found' })))
+        .catch((error) => res.status(500).json({ error }));
+};
+
+const readAll = (req: Request, res: Response, next: NextFunction) => {
+    return User.find()
+        .then((users) => res.status(200).json({ users }))
         .catch((error) => res.status(500).json({ error }));
 };
 
@@ -53,4 +60,4 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-export default { createUser, readUser, updateUser, deleteUser };
+export default { createUser, readUser, readAll, updateUser, deleteUser };

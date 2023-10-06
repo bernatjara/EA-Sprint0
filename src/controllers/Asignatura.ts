@@ -25,6 +25,12 @@ const readAsignatura = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
+const readAll = (req: Request, res: Response, next: NextFunction) => {
+    return Asignatura.find()
+        .then((asignaturas) => res.status(200).json({ asignaturas }))
+        .catch((error) => res.status(500).json({ error }));
+};
+
 const updateAsignatura = (req: Request, res: Response, next: NextFunction) => {
     const asignaturaId = req.params.asignaturaId;
 
@@ -52,4 +58,4 @@ const deleteAsignatura = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json({ error }));
 };
 
-export default { createAsignatura, readAsignatura, updateAsignatura, deleteAsignatura };
+export default { createAsignatura, readAsignatura, readAll, updateAsignatura, deleteAsignatura };
