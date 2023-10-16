@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', ValidateSchema(Schemas.schedule.create), controller.createSchedule);
 router.get('/:scheduleId', controller.readSchedule);
-router.patch('/:scheduleId', ValidateSchema(Schemas.schedule.update), controller.updateSchedule);
+router.put('/:scheduleId', ValidateSchema(Schemas.schedule.update), controller.updateSchedule);
 router.delete('/:scheduleId', controller.deleteSchedule);
 
 export = router;

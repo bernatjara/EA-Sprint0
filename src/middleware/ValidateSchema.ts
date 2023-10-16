@@ -1,8 +1,6 @@
 import Joi, { ObjectSchema } from 'joi';
 import { NextFunction, Response, Request } from 'express';
 import Logging from '../library/Logging';
-import { IAuthor } from '../models/Author';
-import { IBook } from '../models/Book';
 import { IUser } from '../models/User';
 import { ISchedule } from '../models/Schedule';
 import { IAsignatura } from '../models/Asignatura';
@@ -21,30 +19,6 @@ export const ValidateSchema = (schema: ObjectSchema) => {
 };
 
 export const Schemas = {
-    author: {
-        create: Joi.object<IAuthor>({
-            name: Joi.string().required()
-        }),
-        update: Joi.object<IAuthor>({
-            name: Joi.string().required()
-        })
-    },
-    book: {
-        create: Joi.object<IBook>({
-            author: Joi.string()
-                .regex(/^[0-9a-fA-F]{24}/)
-                .required(),
-            title: Joi.string().required(),
-            category: Joi.string().required()
-        }),
-        update: Joi.object<IBook>({
-            author: Joi.string()
-                .regex(/^[0-9a-fA-F]{24}/)
-                .required(),
-            title: Joi.string().required(),
-            category: Joi.string().required()
-        })
-    },
     user: {
         create: Joi.object<IUser>({
             name: Joi.string().required(),

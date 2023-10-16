@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/', ValidateSchema(Schemas.user.create), controller.createUser);
 router.get('/:userId', controller.readUser);
 router.get('/', controller.readAll);
-router.patch('/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
+router.put('/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
 router.delete('/:userId', controller.deleteUser);
 
 export = router;
