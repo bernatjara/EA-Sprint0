@@ -35,21 +35,37 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
 
 const updateUser = (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
-
-    return User.findById(userId)
+    const { name, password, email, asignatura } = req.body;
+    const user = new User({
+        name,
+        password,
+        email,
+        asignatura
+    });
+    console.log(user);
+        return User.findByIdAndUpdate(userId, {name: user.name, password: user.password, email: user.email, asignatura: user.asignatura} )
+            .then((userOut) => (userOut ? res.status(200).json(user) : res.status(404).json({ message: 'Not found' })))
+            .catch((error) =>  res.status(500).json(error));
+    /* return User.findById(userId)
         .then((user) => {
             if (user) {
                 user.set(req.body);
 
                 return user
                     .save()
-                    .then((user) => res.status(201).json(user))
-                    .catch((error) => res.status(500).json(error));
+                    .then((user) => 
+                        res.status(201).json(user))
+            
+                    .catch((error) => {
+                        console.log("save", error);
+                        res.status(500).json(error);
+                    });
+                    
             } else {
                 res.status(404).json({ message: 'Not found' });
             }
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) => res.status(500).json(error)); */
 };
 
 const deleteUser = (req: Request, res: Response, next: NextFunction) => {
