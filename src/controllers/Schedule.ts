@@ -27,8 +27,22 @@ const readSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
+const readAll = (req: Request, res: Response, next: NextFunction) => {
+    return Schedule.find()
+        .then((schedules) => res.status(200).json(schedules))
+        .catch((error) => res.status(500).json(error));
+};
+
 const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
-    const scheduleId = req.params.scheduleId;
+    return Schedule.findByIdAndUpdate(req.params.scheduleId, {
+        name: req.body.name,
+        clase: req.body.clase,
+        start: req.body.start,
+        duration: req.body.duration
+    })
+        .then((schedule) => (schedule ? res.status(201).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
+        .catch((error) => res.status(500).json(error));
+    /* const scheduleId = req.params.scheduleId;
 
     return Schedule.findById(scheduleId)
         .then((schedule) => {
@@ -43,7 +57,7 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
                 res.status(404).json({ message: 'Not found' });
             }
         })
-        .catch((error) => res.status(500).json(error));
+        .catch((error) => res.status(500).json(error)); */
 };
 
 const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
@@ -54,4 +68,4 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createSchedule, readSchedule, updateSchedule, deleteSchedule };
+export default { createSchedule, readSchedule, readAll, updateSchedule, deleteSchedule };
