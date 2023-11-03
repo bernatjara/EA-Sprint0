@@ -55,6 +55,12 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
+const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+    return Schedule.find()
+        .then((schedules) => res.status(200).json(schedules))
+        .catch((error) => res.status(500).json(error));
+}
+
 const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
     return Schedule.findByIdAndUpdate(req.params.scheduleId, {
         name: req.body.name,
@@ -90,4 +96,4 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createSchedule, readSchedule, readAll, updateSchedule, deleteSchedule };
+export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule };

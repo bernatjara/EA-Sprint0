@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/', ValidateSchema(Schemas.user.create), controller.createUser);
 router.get('/:userId', controller.readUser);
 router.get('/:page/:limit', controller.readAll);
+router.get('/', controller.dameTodo);
 router.put('/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
 router.delete('/:userId', controller.deleteUser);
 

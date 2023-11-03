@@ -57,6 +57,12 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
+const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+    return User.find()
+        .then((users) => res.status(200).json(users))
+        .catch((error) => res.status(500).json(error));
+}
+
 const updateUser = (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
     const { name, password, email, asignatura } = req.body;
@@ -100,4 +106,4 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createUser, readUser, readAll, updateUser, deleteUser };
+export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo };
