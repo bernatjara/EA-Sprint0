@@ -6,7 +6,9 @@ const router = express.Router();
 
 router.post('/', ValidateSchema(Schemas.asignatura.create), controller.createAsignatura);
 router.get('/:asignaturaId', controller.readAsignatura);
-router.get('/', controller.readAll);
+router.get('/', controller.dameTodo);
+router.get('/page/:page/:limit', controller.readAll);
+router.get('/user/:id', controller.getAsignaturasOfUser);
 router.put('/:asignaturaId', ValidateSchema(Schemas.asignatura.update), controller.updateAsignatura);
 router.delete('/:asignaturaId', controller.deleteAsignatura);
 

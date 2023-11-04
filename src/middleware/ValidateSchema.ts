@@ -23,7 +23,8 @@ export const Schemas = {
         create: Joi.object<IUser>({
             name: Joi.string().required(),
             password: Joi.string().required(),
-            email: Joi.string().email().required()
+            email: Joi.string().email().required(),
+            asignatura: Joi.array().items(Joi.string().length(24).hex())
         }),
         update: Joi.object<IUser>({
             name: Joi.string().required(),
@@ -47,8 +48,8 @@ export const Schemas = {
     },
     asignatura: {
         create: Joi.object<IAsignatura>({
-            name: Joi.string().required(),
-            schedule: Joi.array().required()
+            name: Joi.string().required() /* ,
+            schedule: Joi.array().required() */
         }),
         update: Joi.object<IAsignatura>({
             name: Joi.string().required(),

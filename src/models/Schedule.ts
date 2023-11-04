@@ -21,4 +21,4 @@ const ScheduleSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IScheduleModel>('Schedule', ScheduleSchema);
+export default mongoose.model<IScheduleModel>('schedule', ScheduleSchema);

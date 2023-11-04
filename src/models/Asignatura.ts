@@ -11,11 +11,11 @@ export interface IAsignaturaModel extends IAsignatura, Document {}
 const AsignaturaSchema: Schema = new Schema(
     {
         name: { type: String, required: true },
-        schedule: [{ type: Schema.Types.ObjectId, required: false, ref: 'Schedule' }]
+        schedule: [{ type: Schema.Types.ObjectId, required: false, ref: 'schedule' }]
     },
     {
         versionKey: false
     }
 );
 
-export default mongoose.model<IAsignaturaModel>('Asignatura', AsignaturaSchema);
+export default mongoose.model<IAsignaturaModel>('asignatura', AsignaturaSchema);

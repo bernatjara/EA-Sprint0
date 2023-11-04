@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
-import User, { IUserModel } from '../models/User';
+import User from '../models/User';
 
 const createUser = (req: Request, res: Response, next: NextFunction) => {
     const { name, password, email, asignatura } = req.body;
@@ -61,7 +61,7 @@ const dameTodo = (req: Request, res: Response, next: NextFunction) => {
     return User.find()
         .then((users) => res.status(200).json(users))
         .catch((error) => res.status(500).json(error));
-}
+};
 
 const updateUser = (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
