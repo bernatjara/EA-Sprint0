@@ -28,8 +28,8 @@ const UserSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    asignatura: { type: mongoose_1.Schema.Types.ObjectId, required: false, ref: 'Asignatura' }
+    asignatura: { type: [mongoose_1.Schema.Types.ObjectId], required: false, ref: 'asignatura' }
 }, {
     versionKey: false
 });
-exports.default = mongoose_1.default.model('User', UserSchema);
+exports.default = mongoose_1.default.model('user', UserSchema);

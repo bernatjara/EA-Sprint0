@@ -8,8 +8,9 @@ const http_1 = __importDefault(require("http"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const config_1 = require("./config/config");
 const Logging_1 = __importDefault(require("./library/Logging"));
-const Author_1 = __importDefault(require("./routes/Author"));
-const Book_1 = __importDefault(require("./routes/Book"));
+const User_1 = __importDefault(require("./routes/User"));
+const Asignatura_1 = __importDefault(require("./routes/Asignatura"));
+const Schedule_1 = __importDefault(require("./routes/Schedule"));
 const router = (0, express_1.default)();
 /* Connect to Mongo */
 mongoose_1.default
@@ -46,8 +47,9 @@ const StartServer = () => {
         next();
     });
     /* Routes */
-    router.use('/authors', Author_1.default);
-    router.use('/books', Book_1.default);
+    router.use('/users', User_1.default);
+    router.use('/asignaturas', Asignatura_1.default);
+    router.use('/schedules', Schedule_1.default);
     /* Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
     /* Error handling */

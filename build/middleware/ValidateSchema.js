@@ -29,35 +29,12 @@ const ValidateSchema = (schema) => {
 };
 exports.ValidateSchema = ValidateSchema;
 exports.Schemas = {
-    author: {
-        create: joi_1.default.object({
-            name: joi_1.default.string().required()
-        }),
-        update: joi_1.default.object({
-            name: joi_1.default.string().required()
-        })
-    },
-    book: {
-        create: joi_1.default.object({
-            author: joi_1.default.string()
-                .regex(/^[0-9a-fA-F]{24}/)
-                .required(),
-            title: joi_1.default.string().required(),
-            category: joi_1.default.string().required()
-        }),
-        update: joi_1.default.object({
-            author: joi_1.default.string()
-                .regex(/^[0-9a-fA-F]{24}/)
-                .required(),
-            title: joi_1.default.string().required(),
-            category: joi_1.default.string().required()
-        })
-    },
     user: {
         create: joi_1.default.object({
             name: joi_1.default.string().required(),
             password: joi_1.default.string().required(),
-            email: joi_1.default.string().email().required()
+            email: joi_1.default.string().email().required(),
+            asignatura: joi_1.default.array().items(joi_1.default.string().length(24).hex())
         }),
         update: joi_1.default.object({
             name: joi_1.default.string().required(),
@@ -81,8 +58,8 @@ exports.Schemas = {
     },
     asignatura: {
         create: joi_1.default.object({
-            name: joi_1.default.string().required(),
-            schedule: joi_1.default.array().required()
+            name: joi_1.default.string().required() /* ,
+            schedule: Joi.array().required() */
         }),
         update: joi_1.default.object({
             name: joi_1.default.string().required(),

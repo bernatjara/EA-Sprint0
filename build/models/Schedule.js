@@ -32,4 +32,4 @@ const ScheduleSchema = new mongoose_1.Schema({
 }, {
     versionKey: false
 });
-exports.default = mongoose_1.default.model('Schedule', ScheduleSchema);
+exports.default = mongoose_1.default.model('schedule', ScheduleSchema);
