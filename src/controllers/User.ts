@@ -1,18 +1,22 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/User';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
-const createUser = (req: Request, res: Response, next: NextFunction) => {
-    const { name, password, email, asignatura } = req.body;
+const siganture = process.env.siganture || '';
+const createUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { name, password, email, asignatura, rol } = req.body;
 
     const user = new User({
         _id: new mongoose.Types.ObjectId(),
         name,
         password,
         email,
-        asignatura
+        asignatura,
+        rol
     });
-
+    user.password = await user.encryptPassword(user.password);
     return user
         .save()
         .then((user) => res.status(201).json(user))
