@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import config from '../config/config';
 
-const siganture = process.env.siganture || '';
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { name, password, email, asignatura, rol } = req.body;
 
@@ -112,10 +112,18 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
 
 const login = async (req: Request, res: Response, next: NextFunction) =>{
     const { name, password } = req.body;
-
-     return User.findOne({name, password}).lean()
-        .then((user) => (user ? res.status(201).json({ message: 'Login Succesful' }) : res.status(404).json({ message: 'Not found' })))
-        .catch((error) => res.status(500).json(error)); 
+    const user = await User.findOne({name});
+    if (!user) {
+        return res.status(404).send("El nombre no existe");
+    }
+    const validPassword = await user.validatePassword(password);
+    if (!validPassword) {
+      return res.status(401).json({ auth: false, token: null });
+    }
+    const token = jwt.sign({ id: user._id, rol: user.rol}, config.signature, {
+      expiresIn: 60 * 60 * 24,
+    });
+    return res.json({ auth: true, token });         
 }
 
 export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login };

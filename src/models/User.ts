@@ -9,6 +9,7 @@ export interface IUser {
     asignatura?: string[];
     rol: string;
     encryptPassword(password: string): Promise<string>;
+    validatePassword(password: string): Promise<boolean>;
 }
 
 export interface IUserModel extends IUser, Document {}
@@ -19,7 +20,7 @@ const UserSchema: Schema = new Schema(
         password: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         asignatura: { type: [Schema.Types.ObjectId], required: false, ref: 'asignatura' },
-        rol: { type: String, required: true }
+        rol: { type: String, required: false }
     },
     {
         versionKey: false
@@ -28,5 +29,8 @@ const UserSchema: Schema = new Schema(
 UserSchema.methods.encryptPassword = async (password:string) => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt);
+  };
+UserSchema.methods.validatePassword = async function (password:string) {
+    return bcrypt.compare(password, this.password);
   };
 export default mongoose.model<IUserModel>('user', UserSchema);

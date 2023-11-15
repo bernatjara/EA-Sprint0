@@ -19,3 +19,6 @@ export const config = {
         port: SERVER_PORT
     } 
 };
+export default {
+    signature: 'mysecrettext'
+};

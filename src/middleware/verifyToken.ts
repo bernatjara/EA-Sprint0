@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-
-const signature = process.env.signature || '';
+import config from '../config/config';
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
@@ -17,7 +16,7 @@ export async function verifyToken(req: AuthenticatedRequest, res: Response, next
     });
   }
   try {
-    const decoded: any = jwt.verify(token, signature);
+    const decoded: any = jwt.verify(token, config.signature);
     req.userId = decoded.id;
     next();
   } catch (error) {
