@@ -106,4 +106,12 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo };
+const login = async (req: Request, res: Response, next: NextFunction) =>{
+    const { name, password } = req.body;
+
+     return User.findOne({name, password}).lean()
+        .then((user) => (user ? res.status(201).json({ message: 'Login Succesful' }) : res.status(404).json({ message: 'Not found' })))
+        .catch((error) => res.status(500).json(error)); 
+}
+
+export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login };
