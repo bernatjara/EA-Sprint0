@@ -16,11 +16,11 @@ export interface IUserModel extends IUser, Document {}
 
 const UserSchema: Schema = new Schema(
     {
-        name: { type: String, required: true },
+        name: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         asignatura: { type: [Schema.Types.ObjectId], required: false, ref: 'asignatura' },
-        rol: { type: String, required: false }
+        rol: { type: String, required: true }
     },
     {
         versionKey: false

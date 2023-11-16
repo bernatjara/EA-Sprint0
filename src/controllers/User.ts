@@ -123,7 +123,7 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
     const token = jwt.sign({ id: user._id, rol: user.rol}, config.signature, {
       expiresIn: 60 * 60 * 24,
     });
-    return res.json({ auth: true, token });         
+    return res.json({ auth: true, token });       
 }
 
 export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login };
