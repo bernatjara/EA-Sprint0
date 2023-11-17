@@ -18,6 +18,3 @@ export const config = {
         //port: 27017
     }
 }
-export default {
-    signature: 'mysecrettext'
-}

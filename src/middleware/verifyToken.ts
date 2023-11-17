@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import config from '../config/config';
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
 }
-
+const passToken = process.env.passwordToken || '';
 export async function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
   const token = req.headers["x-access-token"] as string | undefined;
   if (!token) {
@@ -16,7 +15,7 @@ export async function verifyToken(req: AuthenticatedRequest, res: Response, next
     });
   }
   try {
-    const decoded: any = jwt.verify(token, config.signature);
+    const decoded: any = jwt.verify(token, passToken);
     req.userId = decoded.id;
     next();
   } catch (error) {

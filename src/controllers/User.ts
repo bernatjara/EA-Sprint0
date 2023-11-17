@@ -3,8 +3,8 @@ import mongoose from 'mongoose';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import config from '../config/config';
 
+const passToken = process.env.passwordToken || '';
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     const { name, password, email, asignatura, rol } = req.body;
 
@@ -120,7 +120,7 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
     if (!validPassword) {
       return res.status(401).json({ auth: false, token: null });
     }
-    const token = jwt.sign({ id: user._id, rol: user.rol}, config.signature, {
+    const token = jwt.sign({ id: user._id, rol: user.rol}, passToken, {
       expiresIn: 60 * 60 * 24,
     });
     return res.json({ auth: true, token });       
