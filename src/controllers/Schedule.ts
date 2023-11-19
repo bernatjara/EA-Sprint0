@@ -15,7 +15,7 @@ const createSchedule = (req: Request, res: Response, next: NextFunction) => {
 
     return schedule
         .save()
-        .then((schedule) => res.status(201).json(schedule))
+        .then((schedule) => res.status(200).json(schedule))
         .catch((error) => res.status(500).json(error));
 };
 
@@ -68,7 +68,7 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
         start: req.body.start,
         duration: req.body.duration
     })
-        .then((schedule) => (schedule ? res.status(201).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
+        .then((schedule) => (schedule ? res.status(200).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
     /* const scheduleId = req.params.scheduleId;
 
@@ -92,7 +92,7 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
     const scheduleId = req.params.scheduleId;
 
     return Schedule.findByIdAndDelete(scheduleId)
-        .then((schedule) => (schedule ? res.status(201).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))
+        .then((schedule) => (schedule ? res.status(200).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
 };
 

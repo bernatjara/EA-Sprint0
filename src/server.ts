@@ -6,6 +6,7 @@ import Logging from './library/Logging';
 import userRoutes from './routes/User';
 import asignaturaRoutes from './routes/Asignatura';
 import scheduleRoutes from './routes/Schedule';
+import newsRoutes from './routes/News';
 
 const router = express();
 
@@ -54,6 +55,7 @@ const StartServer = () => {
     router.use('/users', userRoutes);
     router.use('/asignaturas', asignaturaRoutes);
     router.use('/schedules', scheduleRoutes);
+    router.use('/news', newsRoutes);
 
     /* Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
