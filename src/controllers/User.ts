@@ -67,19 +67,39 @@ const dameTodo = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const updateUser = (req: Request, res: Response, next: NextFunction) => {
+const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
-    const { name, password, email, asignatura } = req.body;
+    const { name, password, email, asignatura, newPassword } = req.body;
     const user = new User({
         name,
         password,
         email,
         asignatura
     });
-    console.log(user);
-    return User.findByIdAndUpdate(userId, { name: user.name, password: user.password, email: user.email, asignatura: user.asignatura })
-        .then((userOut) => (userOut ? res.status(200).json(user) : res.status(404).json({ message: 'Not found' })))
-        .catch((error) => res.status(500).json(error));
+
+    const userPass = await User.findOne({name});
+    if(!userPass){
+        return res.status(404).send("No existe");
+    }
+    else{
+        const validPassword = await userPass.validatePassword(password);
+        if (!validPassword) {
+            return res.status(401).json({ auth: false});
+        }
+        const newPass = await user.encryptPassword(newPassword);
+        const user2 = await User.findByIdAndUpdate(userId, { name: user.name, password: newPass, email: user.email, asignatura: user.asignatura });
+        if(!user2) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+        else{
+            return User.findById(userId)
+                .then((userOut) => (userOut ? res.status(200).json(userOut) : res.status(404).json({ message: 'Not found' })))
+                .catch((error) => res.status(500).json(error));
+        }
+            /* .then((userOut) => (userOut ? res.status(200).json(user) : res.status(404).json({ message: 'Not found' })))
+            .catch((error) => res.status(500).json(error)); */
+    }
+    
     /* return User.findById(userId)
         .then((user) => {
             if (user) {
