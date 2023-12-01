@@ -31,7 +31,8 @@ export const Schemas = {
         update: Joi.object<IUser>({
             name: Joi.string().required(),
             password: Joi.string().required(),
-            email: Joi.string().email().required()
+            email: Joi.string().email().required(),
+            asignatura: Joi.array().items(Joi.string().length(24).hex())
         })
     },
     schedule: {
