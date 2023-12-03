@@ -8,6 +8,6 @@ router.post('/', ValidateSchema(Schemas.news.create), controller.createNews);
 router.get('/:newId', controller.readNews);
 router.get('/:page/:limit', controller.readAll);
 router.get('/', controller.dameTodo);
-router.delete('/:newId', controller.deleteNews);
+router.delete('/:newsId', controller.deleteNews);
 
 export = router;

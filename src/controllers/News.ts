@@ -62,6 +62,7 @@ const dameTodo = (req: Request, res: Response, next: NextFunction) => {
 
 const deleteNews = (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
+    console.log(newsId);
 
     return News.findByIdAndDelete(newsId)
         .then((news) => (news ? res.status(200).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))
