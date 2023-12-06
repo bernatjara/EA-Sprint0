@@ -100,7 +100,9 @@ const getAsignaturasOfUser = async (req: Request, res: Response) => {
         console.log(idUser);
         const response = await getAllAsignaturasByUser(idUser);
         const data = response ? response : 'NOT_FOUND';
-        res.send(data);
+        const specificdata = response?.asignatura;
+        console.log(specificdata);
+        res.send(specificdata).status(200);
     } catch (err) {
         console.log(err);
         return err;

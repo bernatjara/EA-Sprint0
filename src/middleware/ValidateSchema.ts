@@ -33,6 +33,7 @@ export const Schemas = {
             password: Joi.string().required(),
             email: Joi.string().email().required(),
             newPassword: Joi.string(),
+            asignatura: Joi.array().items(Joi.string().length(24).hex())
         })
     },
     schedule: {
