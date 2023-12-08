@@ -95,6 +95,40 @@ const updateNews = async (req: Request, res: Response, next: NextFunction) => {
                 .then((userOut) => (userOut ? res.status(200).json(userOut) : res.status(404).json({ message: 'Not found' })))
                 .catch((error) => res.status(500).json(error));
         }
-    }
+    }        
 }
-export default { createNews, readNews, readAll, dameTodo, deleteNews, updateNews };
+const createComment = async (req: Request, res: Response, next: NextFunction) => {
+    const newsId = req.params.newsId;
+    const { username, text, rating } = req.body;
+
+    try {
+        const news = await News.findByIdAndUpdate(
+            newsId,
+            {
+                $push: {
+                    comments: { username, text, rating },
+                    ratings: rating
+                }
+            },
+            { new: true }
+        );
+
+        if (!news) {
+            return res.status(404).json({ message: 'News not found' });
+        }
+
+        // Update average rating
+        const ratingsSum = news.ratings.reduce((sum, rating) => sum + rating, 0);
+        const averageRating = ratingsSum / news.ratings.length;
+        news.averageRating = averageRating;
+
+        await news.save();
+
+        res.status(200).json(news);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json(error);
+    }
+};
+
+export default { createNews, readNews, readAll, dameTodo, deleteNews, updateNews, createComment };

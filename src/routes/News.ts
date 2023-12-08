@@ -10,5 +10,6 @@ router.get('/:page/:limit', controller.readAll);
 router.get('/', controller.dameTodo);
 router.put('/:newsId', ValidateSchema(Schemas.news.update), controller.updateNews);
 router.delete('/:newsId', controller.deleteNews);
+router.post('/:newsId', controller.createComment);
 
 export = router;
