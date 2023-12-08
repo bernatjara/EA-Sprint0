@@ -11,6 +11,7 @@ router.get('/:page/:limit', [verifyToken], controller.readAll);
 router.get('/', controller.dameTodo);
 router.post('/login', controller.login);
 router.put('/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
+//router.put('/editAsignaturas/:userId', ValidateSchema(Schemas.user.update), controller.updateAsignatura)
 router.delete('/:userId', controller.deleteUser);
 
 export = router;
