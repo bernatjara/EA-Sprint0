@@ -70,21 +70,25 @@ const deleteNews = (req: Request, res: Response, next: NextFunction) => {
 }
 const updateNews = async (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
-    const { title, imageUrl, content } = req.body;
+    const { newTitle, title, imageUrl, content } = req.body;
+    console.log(title);
     const news = new News({
+        newTitle,
         title,
         imageUrl,
         content
     });
 
-    const newsPass = await News.findOne({newsId});
+    const newsPass = await News.findOne({title});
+    console.log(newsPass);
     if(!newsPass){
-        return res.status(404).send("No existeix");
+        return res.status(402).send("No existeix");
     }
     else{     
-        const news2 = await News.findByIdAndUpdate(newsId, { title: news.title, imageUrl: news.imageUrl, content: news.content });
+        const news2 = await News.findByIdAndUpdate(newsId, { title: newTitle, imageUrl, content });
+        console.log(news2); 
         if(!news2) {
-            return res.status(404).send('Notícia no trobada');
+            return res.status(403).send('Notícia no trobada');
         }
         else{
             return News.findById(newsId)

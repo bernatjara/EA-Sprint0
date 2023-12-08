@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface INews {
+    newTitle: string,
     title: string;
     imageUrl: string;
     content: string;
