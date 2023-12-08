@@ -75,7 +75,8 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         password,
         email,
         asignatura
-    });
+    });console.log('nombre ' + name);
+    console.log('asignatura: ' + asignatura);
 
     const userPass = await User.findOne({name});
     if(!userPass){
