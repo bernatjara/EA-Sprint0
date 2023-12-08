@@ -67,6 +67,30 @@ const deleteNews = (req: Request, res: Response, next: NextFunction) => {
     return News.findByIdAndDelete(newsId)
         .then((news) => (news ? res.status(200).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
-};
+}
+const updateNews = async (req: Request, res: Response, next: NextFunction) => {
+    const newsId = req.params.newsId;
+    const { title, imageUrl, content } = req.body;
+    const news = new News({
+        title,
+        imageUrl,
+        content
+    });
 
-export default { createNews, readNews, readAll, dameTodo, deleteNews };
+    const newsPass = await News.findOne({newsId});
+    if(!newsPass){
+        return res.status(404).send("No existeix");
+    }
+    else{     
+        const news2 = await News.findByIdAndUpdate(newsId, { title: news.title, imageUrl: news.imageUrl, content: news.content });
+        if(!news2) {
+            return res.status(404).send('Notícia no trobada');
+        }
+        else{
+            return News.findById(newsId)
+                .then((userOut) => (userOut ? res.status(200).json(userOut) : res.status(404).json({ message: 'Not found' })))
+                .catch((error) => res.status(500).json(error));
+        }
+    }
+}
+export default { createNews, readNews, readAll, dameTodo, deleteNews, updateNews };
