@@ -9,6 +9,7 @@ export interface IUser {
     asignatura?: string[];
     newPassword: string;
     rol: string;
+    image: string;
     encryptPassword(password: string): Promise<string>;
     validatePassword(password: string): Promise<boolean>;
 }
@@ -22,7 +23,8 @@ const UserSchema: Schema = new Schema(
         email: { type: String, required: true, unique: true },
         asignatura: { type: [Schema.Types.ObjectId], required: false, ref: 'asignatura' },
         newPassword: { type: String, required: false },
-        rol: { type: String, required: true }
+        rol: { type: String, required: true },
+        image: { type: String, required: false, default: '' }
     },
     {
         versionKey: false

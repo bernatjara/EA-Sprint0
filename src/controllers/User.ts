@@ -138,6 +138,21 @@ const updateAsignatura = async (req: Request, res: Response, next: NextFunction)
                 .catch((error) => res.status(500).json(error));
 };
 
+const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.userId;
+    const { name, password, email, image} = req.body;
+    const user = new User({
+        name,
+        password,
+        email,
+        image
+    });
+    const user2 = await User.findByIdAndUpdate(userId, { name: user.name, password: user.password, email: user.email, image: user.image });
+    return User.findById(userId)
+                .then((userOut) => (userOut ? res.status(200).json(userOut) : res.status(404).json({ message: 'Not found' })))
+                .catch((error) => res.status(500).json(error));
+};
+
 const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
 
@@ -162,4 +177,4 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
     return res.json({ auth: true, token, user});       
 }
 
-export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura };
+export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura, updateImage };
