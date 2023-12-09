@@ -20,8 +20,7 @@ const createNews = (req: Request, res: Response, next: NextFunction) => {
 
 const readNews = (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
-
-    return News.findById(newsId)
+    return  News.findById(newsId)
         .then((news) => (news ? res.status(200).json(news) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
 };
@@ -106,24 +105,16 @@ const createComment = async (req: Request, res: Response, next: NextFunction) =>
             newsId,
             {
                 $push: {
-                    comments: { username, text, rating },
-                    ratings: rating
+                    comments: { username, text, rating },   
+                    ratings: rating                    
                 }
             },
             { new: true }
         );
 
         if (!news) {
-            return res.status(404).json({ message: 'News not found' });
+            return res.status(404).json({ message: 'Notícia no trobada' });
         }
-
-        // Update average rating
-        const ratingsSum = news.ratings.reduce((sum, rating) => sum + rating, 0);
-        const averageRating = ratingsSum / news.ratings.length;
-        news.averageRating = averageRating;
-
-        await news.save();
-
         res.status(200).json(news);
     } catch (error) {
         console.error(error);
