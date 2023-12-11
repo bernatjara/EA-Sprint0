@@ -7,7 +7,7 @@ interface AuthenticatedRequest extends Request {
 }
 const passToken = process.env.passwordToken || '';
 export async function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const token = req.headers["x-access-token"] as string | undefined;
+  const token = req.headers['token'] as string | undefined;
   if (!token) {
     return res.status(401).json({
       auth: false,

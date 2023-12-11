@@ -11,7 +11,7 @@ router.get('/:page/:limit', [verifyToken], controller.readAll);
 router.get('/', controller.dameTodo);
 router.post('/login', controller.login);
 router.put('/update/:userId', ValidateSchema(Schemas.user.update), controller.updateUser);
-router.put('/editAsignaturas/:userId', ValidateSchema(Schemas.user.update), controller.updateAsignatura)
+router.put('/editAsignaturas/:userId', ValidateSchema(Schemas.user.update), [verifyToken], controller.updateAsignatura)
 router.put('/updateImage/:userId', ValidateSchema(Schemas.user.update), controller.updateImage);
 router.delete('/:userId', controller.deleteUser);
 
