@@ -42,13 +42,13 @@ export const Schemas = {
             name: Joi.string().required(),
             clase: Joi.string().required(),
             start: Joi.number().required(),
-            duration: Joi.number().required()
+            finish: Joi.number().required()
         }),
         update: Joi.object<ISchedule>({
             name: Joi.string().required(),
             clase: Joi.string().required(),
             start: Joi.number().required(),
-            duration: Joi.number().required()
+            finish: Joi.number().required()
         })
     },
     asignatura: {
