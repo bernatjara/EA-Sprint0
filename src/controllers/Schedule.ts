@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Schedule from '../models/Schedule';
+import Asignatura from '../models/Asignatura';
 
 const createSchedule = (req: Request, res: Response, next: NextFunction) => {
     const { name, clase, start, duration } = req.body;
@@ -96,4 +97,10 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule };
+const getScheduleOfAsignatura = async (asignaturaId: string) => {
+    const responseItem = await Asignatura.findOne({ _id: asignaturaId }).populate('schedule');
+    return responseItem;
+};
+
+
+export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura };

@@ -5,9 +5,10 @@ import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
 const router = express.Router();
 
 router.post('/', ValidateSchema(Schemas.schedule.create), controller.createSchedule);
-router.get('/:scheduleId', controller.readSchedule);
-router.get('/:page/:limit', controller.readAll);
+router.get('/getOne/:scheduleId', controller.readSchedule);
+router.get('/getList/:page/:limit', controller.readAll);
 router.get('/', controller.dameTodo);
+router.get('/asignatura/:id', controller.getScheduleOfAsignatura);
 router.put('/:scheduleId', ValidateSchema(Schemas.schedule.update), controller.updateSchedule);
 router.delete('/:scheduleId', controller.deleteSchedule);
 
