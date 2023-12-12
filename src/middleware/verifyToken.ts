@@ -1,13 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import env from 'dotenv';
 
 interface AuthenticatedRequest extends Request {
   userId?: string;
 }
 const passToken = process.env.passwordToken || '';
 export async function verifyToken(req: AuthenticatedRequest, res: Response, next: NextFunction) {
-  const token = req.headers["x-access-token"] as string | undefined;
+  const tokenByUser = req.headers.authorization || "";
+  const token = tokenByUser.split(" ").pop();
   if (!token) {
     return res.status(401).json({
       auth: false,
@@ -15,7 +16,7 @@ export async function verifyToken(req: AuthenticatedRequest, res: Response, next
     });
   }
   try {
-    const decoded: any = jwt.verify(token, passToken);
+    const decoded: any = jwt.verify(token, passToken) as {rol: string, id: string};
     req.userId = decoded.id;
     next();
   } catch (error) {
