@@ -4,7 +4,7 @@ import Room from '../models/Room';
 import User from '../models/User';
 
 const createRoom = async (req: Request, res: Response, next: NextFunction) => {
-    const { asignatura } = req.body;
+    const { asignatura, userId } = req.body;
 
     try {
         const users = await User.find(asignatura);
