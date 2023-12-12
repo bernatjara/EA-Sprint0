@@ -7,6 +7,8 @@ import userRoutes from './routes/User';
 import asignaturaRoutes from './routes/Asignatura';
 import scheduleRoutes from './routes/Schedule';
 import newsRoutes from './routes/News';
+import chatRoutes from './routes/Room';
+import { Server } from 'socket.io';
 
 const router = express();
 
@@ -56,6 +58,7 @@ const StartServer = () => {
     router.use('/asignaturas', asignaturaRoutes);
     router.use('/schedules', scheduleRoutes);
     router.use('/news', newsRoutes);
+    router.use('/chat', chatRoutes);
 
     /* Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
@@ -69,4 +72,60 @@ const StartServer = () => {
     });
 
     http.createServer(router).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}.`));
+    const server = http.createServer(router);
+    const io = new Server(server);
+
+    interface Message {
+        userId: string;
+        message: string;
+        isReviewLink: boolean;
+      }
+      
+      const messages: Record<string, Message[]> = {};// Almacena los mensajes por sala
+
+    io.on('connection', (socket) => {
+        Logging.info('A user connected');
+    
+        socket.on('join room', (data) => {
+            const { userId, roomId } = data;
+            socket.join(roomId);
+            Logging.info(`User ${userId} joined room ${roomId}`);
+    
+            // Enviar mensajes existentes de la sala al usuario que acaba de unirse
+            if (messages[roomId]) {
+                messages[roomId].forEach((message) => {
+                    socket.emit('chat message', message);
+                });
+            }
+        });
+    
+        socket.on('chat message', (data) => {
+            const { userId, message, roomId, isReviewLink } = data;
+            Logging.info(`Message from ${userId} in room ${roomId}: ${message}`);
+        
+            // Almacenar el mensaje en la matriz de mensajes
+            if (!messages[roomId]) {
+                messages[roomId] = [];
+            }
+            messages[roomId].push({ userId, message, isReviewLink });
+        
+            // Emitir el mensaje a todos los usuarios en la sala
+            io.to(roomId).emit('chat message', { userId, message, isReviewLink });
+        });
+        
+    
+        socket.on('leave room', (data) => {
+            const { roomId } = data;
+            socket.leave(roomId);
+            Logging.info(`User ${socket.id} left room ${roomId}`);
+        });
+    
+        socket.on('disconnect', () => {
+            Logging.info('User disconnected');
+        });
+    });
+    server.listen(config.server.port, () => {
+        Logging.info(`Server is running on port ${config.server.port}`);
+    });
+
 };

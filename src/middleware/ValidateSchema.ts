@@ -5,6 +5,7 @@ import { IUser } from '../models/User';
 import { ISchedule } from '../models/Schedule';
 import { IAsignatura } from '../models/Asignatura';
 import { INews } from '../models/News';
+import { IRoom } from '../models/Room';
 
 export const ValidateSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -73,5 +74,11 @@ export const Schemas = {
             imageUrl: Joi.string().required(),
             content: Joi.string().required()
         })
-    }
+    },
+    room: {
+        create: Joi.object<IRoom>({
+            users: Joi.array().required(),
+            groupName: Joi.string().required(),
+        }),
+    },
 };
