@@ -97,10 +97,25 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const getScheduleOfAsignatura = async (asignaturaId: string) => {
-    const responseItem = await Asignatura.findOne({ _id: asignaturaId }).populate('schedule');
+const getAllSchedulesByUser = async (id: string) => {
+    const responseItem = await Asignatura.findOne({ _id: id }).populate('schedule');
     return responseItem;
 };
 
+const getScheduleOfAsignatura = async (req: Request, res: Response) => {
+    try {
+        const idSchedules = req.params.id;
+        console.log(idSchedules);
+        const response = await getAllSchedulesByUser(idSchedules);
+        const data = response ? response : 'NOT_FOUND';
+        const specificdata = response?.schedule;
+        console.log(specificdata);
+        res.send(specificdata).status(200);
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};
 
-export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura };
+
+export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura, getAllSchedulesByUser };

@@ -54,11 +54,11 @@ export const Schemas = {
     asignatura: {
         create: Joi.object<IAsignatura>({
             name: Joi.string().required(),
-            schedule: Joi.array() 
+            schedule: Joi.array(),
         }),
         update: Joi.object<IAsignatura>({
             name: Joi.string().required(),
-            schedule: Joi.array().required()
+            schedule: Joi.array().required(),
         })
     },
     news:{

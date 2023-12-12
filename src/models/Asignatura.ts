@@ -1,5 +1,6 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { ISchedule } from './Schedule';
+import { number } from 'joi';
 
 export interface IAsignatura {
     name: string;
@@ -11,7 +12,7 @@ export interface IAsignaturaModel extends IAsignatura, Document {}
 const AsignaturaSchema: Schema = new Schema(
     {
         name: { type: String, required: true },
-        schedule: [{ type: Schema.Types.ObjectId, required: false, ref: 'schedule' }]
+        schedule: [{ type: Schema.Types.ObjectId, required: false, ref: 'schedule' }],
     },
     {
         versionKey: false
