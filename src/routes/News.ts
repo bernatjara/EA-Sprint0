@@ -4,12 +4,12 @@ import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
 import {verifyToken} from '../middleware/verifyToken';
 
 const router = express.Router();
-router.post('/', verifyToken, ValidateSchema(Schemas.news.create), controller.createNews);
+router.post('/', ValidateSchema(Schemas.news.create), verifyToken, controller.createNews); //fet
 router.get('/:newsId', controller.readNews);
 router.get('/:page/:limit', controller.readAll);
 router.get('/', controller.dameTodo);
-router.put('/:newsId', ValidateSchema(Schemas.news.update), controller.updateNews);
-router.delete('/:newsId', controller.deleteNews);
-router.post('/:newsId', controller.createComment);
+router.put('/:newsId', ValidateSchema(Schemas.news.update), verifyToken, controller.updateNews); //fet
+router.delete('/:newsId', verifyToken, controller.deleteNews); //fet
+router.post('/:newsId', verifyToken, controller.createComment); //fet
 
 export = router;
