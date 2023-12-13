@@ -4,14 +4,15 @@ import Schedule from '../models/Schedule';
 import Asignatura from '../models/Asignatura';
 
 const createSchedule = (req: Request, res: Response, next: NextFunction) => {
-    const { name, clase, start, finish } = req.body;
+    const { name, clase, start, finish, day } = req.body;
 
     const schedule = new Schedule({
         _id: new mongoose.Types.ObjectId(),
         name,
         clase,
         start,
-        finish
+        finish,
+        day
     });
 
     return schedule
@@ -67,7 +68,8 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
         name: req.body.name,
         clase: req.body.clase,
         start: req.body.start,
-        finish: req.body.finish
+        finish: req.body.finish,
+        day: req.body.day
     })
         .then((schedule) => (schedule ? res.status(200).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
