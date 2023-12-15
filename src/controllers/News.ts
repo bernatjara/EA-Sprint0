@@ -3,13 +3,16 @@ import mongoose from 'mongoose';
 import News from '../models/News';
 
 const createNews = (req: Request, res: Response, next: NextFunction) => {
-    const { title, imageUrl, content } = req.body;
+    const { title, imageUrl, content, year, month, day } = req.body;
 
     const news = new News({
         _id: new mongoose.Types.ObjectId(),
         title,
         imageUrl,
-        content
+        content,
+        year,
+        month,
+        day
     });
 
     return news
@@ -69,13 +72,16 @@ const deleteNews = (req: Request, res: Response, next: NextFunction) => {
 }
 const updateNews = async (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
-    const { newTitle, title, imageUrl, content } = req.body;
+    const { newTitle, title, imageUrl, content, year, month, day } = req.body;
     console.log(title);
     const news = new News({
         newTitle,
         title,
         imageUrl,
-        content
+        content,
+        year,
+        month,
+        day
     });
 
     const newsPass = await News.findOne({title});

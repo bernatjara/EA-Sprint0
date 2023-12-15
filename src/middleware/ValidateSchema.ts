@@ -65,13 +65,19 @@ export const Schemas = {
         create: Joi.object<INews>({
             title: Joi.string().required(),
             imageUrl: Joi.string().required(),
-            content: Joi.string().required()
+            content: Joi.string().required(),
+            year: Joi.number(),
+            month: Joi.number(),
+            day: Joi.number()
         }),
         update: Joi.object<INews>({
             newTitle: Joi.string().required(),
             title: Joi.string().required(),
             imageUrl: Joi.string().required(),
-            content: Joi.string().required()
+            content: Joi.string().required(),
+            year: Joi.number(),
+            month: Joi.number(),
+            day: Joi.number()
         })
     }
 };
