@@ -69,15 +69,12 @@ const dameTodo = (req: Request, res: Response, next: NextFunction) => {
 
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
-    const { name, password, email, asignatura, newPassword } = req.body;
+    const { name, password, email, newPassword } = req.body;
     const user = new User({
         name,
         password,
         email,
-        asignatura
-    });console.log('nombre ' + name);
-    console.log('asignatura: ' + asignatura);
-
+    });
     const userPass = await User.findOne({name});
     if(!userPass){
         return res.status(404).send("No existe");
@@ -88,7 +85,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(401).json({ auth: false});
         }
         const newPass = await user.encryptPassword(newPassword);
-        const user2 = await User.findByIdAndUpdate(userId, { name: user.name, password: newPass, email: user.email, asignatura: user.asignatura });
+        const user2 = await User.findByIdAndUpdate(userId, { name: user.name, password: newPass, email: user.email });
         if(!user2) {
             return res.status(404).send('Usuario no encontrado');
         }
@@ -177,4 +174,23 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
     return res.json({ auth: true, token, user});       
 }
 
-export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura, updateImage };
+const registerGoogleUser = async (req: Request, res: Response, next: NextFunction) => {
+    const { name, password, email, asignatura, rol, image } = req.body;
+
+    const user = new User({
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        password,
+        email,
+        asignatura,
+        rol,
+        image,
+    });
+    user.password = await user.encryptPassword(user.password);
+    return user
+        .save()
+        .then((user) => res.status(200).json(user))
+        .catch((error) => res.status(500).json(error));
+};
+
+export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura, updateImage, registerGoogleUser };

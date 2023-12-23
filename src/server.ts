@@ -1,4 +1,5 @@
 import express from 'express';
+import {Server} from 'socket.io';
 import http from 'http';
 import mongoose from 'mongoose';
 import { config } from './config/config';
@@ -67,6 +68,26 @@ const StartServer = () => {
 
         return res.status(404).json({ message: error.message });
     });
+
+    /* const server = http.createServer(router);
+    const io = new Server(server);
+
+    io.on('connection', (socket) => {
+        Logging.info('A user connected: ' + socket.id);
+
+        socket.on('chatMessage', (msg) => {
+            Logging.info(`Message: ${msg}`);
+            io.emit('chatMessage', msg);
+        });
+
+        socket.on('disconnect', () => {
+            Logging.info('User disconnected: ' + socket.id);
+        });
+    });
+
+    server.listen(config.server.port, () => {
+        Logging.info(`Server is running on port ${config.server.port}`);
+    }); */
 
     http.createServer(router).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}.`));
 };

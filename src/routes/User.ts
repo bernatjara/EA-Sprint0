@@ -6,6 +6,7 @@ import verifyToken from '../middleware/verifyToken';
 const router = express.Router();
 
 router.post('/', ValidateSchema(Schemas.user.create), controller.createUser);
+router.post('/register', ValidateSchema(Schemas.user.create), controller.registerGoogleUser);
 router.get('/:userId', controller.readUser);
 router.get('/:page/:limit', controller.readAll);
 router.get('/', controller.dameTodo);
