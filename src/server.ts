@@ -1,5 +1,4 @@
 import express from 'express';
-import {Server} from 'socket.io';
 import http from 'http';
 import mongoose from 'mongoose';
 import { config } from './config/config';
