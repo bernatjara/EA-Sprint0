@@ -43,23 +43,25 @@ export const Schemas = {
             name: Joi.string().required(),
             clase: Joi.string().required(),
             start: Joi.number().required(),
-            duration: Joi.number().required()
+            finish: Joi.number().required(),
+            day: Joi.string().required()
         }),
         update: Joi.object<ISchedule>({
             name: Joi.string().required(),
             clase: Joi.string().required(),
             start: Joi.number().required(),
-            duration: Joi.number().required()
+            finish: Joi.number().required(),
+            day: Joi.string().required()
         })
     },
     asignatura: {
         create: Joi.object<IAsignatura>({
             name: Joi.string().required(),
-            schedule: Joi.array() 
+            schedule: Joi.array(),
         }),
         update: Joi.object<IAsignatura>({
             name: Joi.string().required(),
-            schedule: Joi.array().required()
+            schedule: Joi.array().required(),
         })
     },
     news:{

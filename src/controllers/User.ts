@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
 const passToken = process.env.passwordToken || '';
 const createUser = async (req: Request, res: Response, next: NextFunction) => {

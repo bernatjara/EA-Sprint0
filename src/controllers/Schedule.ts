@@ -1,16 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Schedule from '../models/Schedule';
+import Asignatura from '../models/Asignatura';
 
 const createSchedule = (req: Request, res: Response, next: NextFunction) => {
-    const { name, clase, start, duration } = req.body;
+    const { name, clase, start, finish, day } = req.body;
 
     const schedule = new Schedule({
         _id: new mongoose.Types.ObjectId(),
         name,
         clase,
         start,
-        duration
+        finish,
+        day
     });
 
     return schedule
@@ -66,7 +68,8 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
         name: req.body.name,
         clase: req.body.clase,
         start: req.body.start,
-        duration: req.body.duration
+        finish: req.body.finish,
+        day: req.body.day
     })
         .then((schedule) => (schedule ? res.status(200).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
@@ -96,4 +99,25 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule };
+const getAllSchedulesByUser = async (id: string) => {
+    const responseItem = await Asignatura.findOne({ _id: id }).populate('schedule');
+    return responseItem;
+};
+
+const getScheduleOfAsignatura = async (req: Request, res: Response) => {
+    try {
+        const idSchedules = req.params.id;
+        console.log(idSchedules);
+        const response = await getAllSchedulesByUser(idSchedules);
+        const data = response ? response : 'NOT_FOUND';
+        const specificdata = response?.schedule;
+        console.log(specificdata);
+        res.send(specificdata).status(200);
+    } catch (err) {
+        console.log(err);
+        return err;
+    }
+};
+
+
+export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura, getAllSchedulesByUser };
