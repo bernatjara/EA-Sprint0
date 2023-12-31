@@ -4,12 +4,13 @@ import Asignatura from '../models/Asignatura';
 import User from '../models/User';
 
 const createAsignatura = (req: Request, res: Response, next: NextFunction) => {
-    const { name, schedule } = req.body;
+    const { name, schedule, chat } = req.body;
 
     const asignatura = new Asignatura({
         _id: new mongoose.Types.ObjectId(),
         name,
-        schedule
+        schedule,
+        chat
     });
 
     return asignatura
