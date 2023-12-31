@@ -5,8 +5,9 @@ export interface INews {
     title: string;
     imageUrl: string;
     content: string;
-    comments: Array<{ username: string, text: string, rating: number }>;    
-    ratings: Array<number>;    
+    comments: Array<{ username: string, text: string, rating: number, dia: string }>;    
+    ratings: Array<number>; 
+    mes: string;   
 }
 
 export interface INewsModel extends INews, Document {}
@@ -20,6 +21,7 @@ const NewsSchema: Schema = new Schema(
             username: { type: String, required: true },
             text: { type: String, required: true },
             rating: { type: Number, required: true },
+            dia: { type: String },
         }],
         ratings: [{ type: Number, required: true }]
         },
