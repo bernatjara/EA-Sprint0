@@ -107,11 +107,9 @@ const getAllSchedulesByUser = async (id: string) => {
 const getScheduleOfAsignatura = async (req: Request, res: Response) => {
     try {
         const idSchedules = req.params.id;
-        console.log(idSchedules);
         const response = await getAllSchedulesByUser(idSchedules);
         const data = response ? response : 'NOT_FOUND';
         const specificdata = response?.schedule;
-        console.log(specificdata);
         res.send(specificdata).status(200);
     } catch (err) {
         console.log(err);
