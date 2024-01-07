@@ -7,6 +7,7 @@ import userRoutes from './routes/User';
 import asignaturaRoutes from './routes/Asignatura';
 import scheduleRoutes from './routes/Schedule';
 import newsRoutes from './routes/News';
+import activityRoutes from './routes/Activity';
 
 const router = express();
 
@@ -56,6 +57,9 @@ const StartServer = () => {
     router.use('/asignaturas', asignaturaRoutes);
     router.use('/schedules', scheduleRoutes);
     router.use('/news', newsRoutes);
+    router.use('/activities', activityRoutes);
+
+
 
     /* Healthcheck */
     router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
