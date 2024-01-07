@@ -5,6 +5,7 @@ import { IUser } from '../models/User';
 import { ISchedule } from '../models/Schedule';
 import { IAsignatura } from '../models/Asignatura';
 import { INews } from '../models/News';
+import { IActivity } from '../models/Activity';
 
 export const ValidateSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -76,5 +77,23 @@ export const Schemas = {
             imageUrl: Joi.string().required(),
             content: Joi.string().required()
         })
-    }
+    },
+    activity: {
+        create: Joi.object<IActivity>({
+            lat: Joi.number().required(),
+            long: Joi.number().required(),
+            name: Joi.string().required(),
+            day: Joi.string().required(),
+            time: Joi.string().required(),
+        
+        }),
+        update: Joi.object<IActivity>({
+            lat: Joi.number().required(),
+            long: Joi.number().required(),
+            name: Joi.string().required(),
+            day: Joi.string().required(),
+            time: Joi.string().required(),
+        
+        })
+    },
 };

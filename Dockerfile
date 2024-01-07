@@ -10,8 +10,10 @@ RUN npm install
 RUN mkdir src
 COPY src/ src
 RUN npm run build 
-EXPOSE 9090
+EXPOSE 9191
 CMD [ "npm", "start"]
 #CMD [ "nodemon", ""]
 
-#docker build -t node-app:1.0 .
+#docker build -t backend:0.1.1 .
+#docker run -p 8080:9090 backend:0.1.1
+#docker tag backend:0.1.2 jordipie/backend:0.1.2
