@@ -83,12 +83,10 @@ export const Schemas = {
     chat:{
         create: Joi.object<IChat>({
             roomId: Joi.string().required(),
-            connectedUsers: Joi.array(),
             conversation: Joi.array()
         }),
         update: Joi.object<IChat>({
             roomId: Joi.string().required(),
-            connectedUsers: Joi.array(),
             conversation: Joi.array()
         })
     },

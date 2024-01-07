@@ -79,6 +79,7 @@ const StartServer = () => {
     const connectedUsers: { [room: string]: Set<string> } = {};
 
     io.on('connection', (socket) => {
+        console.log('backend connected');
         socket.on('join-room', (room) => {
             socket.join(room);
             if (!connectedUsers[room]) {
@@ -88,8 +89,9 @@ const StartServer = () => {
             io.to(room).emit('connected-users', connectedUsers[room].size);
         });
         socket.on('message', (data) => {
-            const { room, message } = data;
-            io.to(room).emit('message', { sender: socket.id, message });
+            const { room, userId,senderName, message } = data;
+            console.log('msg ', data);
+            io.to(room).emit('message', { idUser: userId,senderName: senderName, message: message });
         });
         socket.on('disconnect', () => {
             for (const room in connectedUsers) {
