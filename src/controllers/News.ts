@@ -3,13 +3,14 @@ import mongoose from 'mongoose';
 import News from '../models/News';
 
 const createNews = (req: Request, res: Response, next: NextFunction) => {
-    const { title, imageUrl, content } = req.body;
+    const { title, imageUrl, content, mes } = req.body;
 
     const news = new News({
         _id: new mongoose.Types.ObjectId(),
         title,
         imageUrl,
-        content
+        content,
+        mes
     });
 
     return news
@@ -69,13 +70,14 @@ const deleteNews = (req: Request, res: Response, next: NextFunction) => {
 }
 const updateNews = async (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
-    const { newTitle, title, imageUrl, content } = req.body;
+    const { newTitle, title, imageUrl, content, mes } = req.body;
     console.log(title);
     const news = new News({
         newTitle,
         title,
         imageUrl,
-        content
+        content,
+        mes
     });
 
     const newsPass = await News.findOne({title});
@@ -84,7 +86,7 @@ const updateNews = async (req: Request, res: Response, next: NextFunction) => {
         return res.status(402).send("No existeix");
     }
     else{     
-        const news2 = await News.findByIdAndUpdate(newsId, { title: newTitle, imageUrl, content });
+        const news2 = await News.findByIdAndUpdate(newsId, { title: newTitle, imageUrl, content, mes });
         console.log(news2); 
         if(!news2) {
             return res.status(403).send('Notícia no trobada');
@@ -98,14 +100,14 @@ const updateNews = async (req: Request, res: Response, next: NextFunction) => {
 }
 const createComment = async (req: Request, res: Response, next: NextFunction) => {
     const newsId = req.params.newsId;
-    const { username, text, rating } = req.body;
+    const { username, text, rating, dia } = req.body;
 
     try {
         const news = await News.findByIdAndUpdate(
             newsId,
             {
                 $push: {
-                    comments: { username, text, rating },   
+                    comments: { username, text, rating, dia },   
                     ratings: rating                    
                 }
             },
