@@ -4,7 +4,7 @@ import Schedule from '../models/Schedule';
 import Asignatura from '../models/Asignatura';
 
 const createSchedule = (req: Request, res: Response, next: NextFunction) => {
-    const { name, clase, start, finish, day } = req.body;
+    const { name, clase, start, finish, day, year } = req.body;
 
     const schedule = new Schedule({
         _id: new mongoose.Types.ObjectId(),
@@ -12,7 +12,8 @@ const createSchedule = (req: Request, res: Response, next: NextFunction) => {
         clase,
         start,
         finish,
-        day
+        day,
+        year
     });
 
     return schedule
@@ -58,7 +59,7 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const dameTodo = (req: Request, res: Response, next: NextFunction) => {
-    return Schedule.find()
+    return Schedule.find({year: req.params.year})
         .then((schedules) => res.status(200).json(schedules))
         .catch((error) => res.status(500).json(error));
 }
@@ -69,7 +70,8 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
         clase: req.body.clase,
         start: req.body.start,
         finish: req.body.finish,
-        day: req.body.day
+        day: req.body.day,
+        year: req.body.year
     })
         .then((schedule) => (schedule ? res.status(200).json({ message: 'Done' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
@@ -99,15 +101,32 @@ const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const getAllSchedulesByUser = async (id: string) => {
-    const responseItem = await Asignatura.findOne({ _id: id }).populate('schedule');
-    return responseItem;
+const getAllSchedulesByUser = async (id: string, year: number) => {
+    try{
+    const asignatura = await Asignatura.findOne({ _id: id}).populate('schedule');
+    if (!asignatura) {
+        console.log("Asignatura no encontrada para id:", id);
+        return null;
+    }
+    const filtrarHorarios = await asignatura.schedule.filter(schedule => schedule.year === year);
+    asignatura.schedule = filtrarHorarios;
+    return asignatura;
+    }
+    catch(error){
+        console.error("No encontrado");
+    }
 };
+
+/*const getAllSchedulesByUser = async (id: string, year: number) => {
+    const responseItem = await Asignatura.findOne({ _id: id, year: year }).populate('schedule');
+    return responseItem;
+}*/
 
 const getScheduleOfAsignatura = async (req: Request, res: Response) => {
     try {
         const idSchedules = req.params.id;
-        const response = await getAllSchedulesByUser(idSchedules);
+        const yearSchedules = parseInt(req.params.year);
+        const response = await getAllSchedulesByUser(idSchedules, yearSchedules);
         const data = response ? response : 'NOT_FOUND';
         const specificdata = response?.schedule;
         res.send(specificdata).status(200);

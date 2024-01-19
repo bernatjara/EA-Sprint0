@@ -5,7 +5,8 @@ export interface ISchedule {
     clase: string;
     start: number;
     finish: number;
-    day: string,
+    day: string;
+    year: number,
 }
 
 export interface IScheduleModel extends ISchedule, Document {}
@@ -16,7 +17,8 @@ const ScheduleSchema: Schema = new Schema(
         clase: { type: String, required: true },
         start: { type: Number, required: true },
         finish: { type: Number, required: true },
-        day: { type: String, required: true}
+        day: { type: String, required: true},
+        year: {type: Number, required: true}
     },
     {
         versionKey: false

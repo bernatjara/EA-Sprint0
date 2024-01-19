@@ -45,14 +45,16 @@ export const Schemas = {
             clase: Joi.string().required(),
             start: Joi.number().required(),
             finish: Joi.number().required(),
-            day: Joi.string().required()
+            day: Joi.string().required(),
+            year: Joi.number().required()
         }),
         update: Joi.object<ISchedule>({
             name: Joi.string().required(),
             clase: Joi.string().required(),
             start: Joi.number().required(),
             finish: Joi.number().required(),
-            day: Joi.string().required()
+            day: Joi.string().required(),
+            year: Joi.number().required()
         })
     },
     asignatura: {
