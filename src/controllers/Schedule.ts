@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Schedule from '../models/Schedule';
 import Asignatura from '../models/Asignatura';
 
-const createSchedule = (req: Request, res: Response, next: NextFunction) => {
+const createSchedule = (req: Request, res: Response) => {
     const { name, clase, start, finish, day, year } = req.body;
 
     const schedule = new Schedule({
@@ -22,7 +24,7 @@ const createSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const readSchedule = (req: Request, res: Response, next: NextFunction) => {
+const readSchedule = (req: Request, res: Response) => {
     const scheduleId = req.params.scheduleId;
 
     return Schedule.findById(scheduleId)
@@ -44,7 +46,7 @@ async function paginate(page: number, limit: number): Promise<any> {
         return err;
     }
 }
-const readAll = async (req: Request, res: Response, next: NextFunction) => {
+const readAll = async (req: Request, res: Response) => {
     const page = parseInt(req.params.page);
     const limit = parseInt(req.params.limit);
     console.log({ page, limit });
@@ -58,19 +60,19 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
-const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+const dameTodo = (req: Request, res: Response) => {
     return Schedule.find({year: req.params.year})
         .then((schedules) => res.status(200).json(schedules))
         .catch((error) => res.status(500).json(error));
 }
 
-const dameTodoSinYear = (req: Request, res: Response, next: NextFunction) => {
+const dameTodoSinYear = (req: Request, res: Response) => {
     return Schedule.find()
         .then((schedules) => res.status(200).json(schedules))
         .catch((error) => res.status(500).json(error));
 }
 
-const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
+const updateSchedule = (req: Request, res: Response) => {
     return Schedule.findByIdAndUpdate(req.params.scheduleId, {
         name: req.body.name,
         clase: req.body.clase,
@@ -99,7 +101,7 @@ const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error)); */
 };
 
-const deleteSchedule = (req: Request, res: Response, next: NextFunction) => {
+const deleteSchedule = (req: Request, res: Response) => {
     const scheduleId = req.params.scheduleId;
 
     return Schedule.findByIdAndDelete(scheduleId)

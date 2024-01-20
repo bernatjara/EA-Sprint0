@@ -1,10 +1,12 @@
-import { NextFunction, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
 
 const passToken = process.env.passwordToken || '';
-const createUser = async (req: Request, res: Response, next: NextFunction) => {
+const createUser = async (req: Request, res: Response) => {
     const { name, password, email, asignatura, rol } = req.body;
 
     const user = new User({
@@ -22,7 +24,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const readUser = (req: Request, res: Response, next: NextFunction) => {
+const readUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findById(userId)
@@ -46,7 +48,7 @@ async function paginate(page: number, limit: number): Promise<any> {
     }
 }
 
-const readAll = async (req: Request, res: Response, next: NextFunction) => {
+const readAll = async (req: Request, res: Response) => {
     const page = parseInt(req.params.page);
     const limit = parseInt(req.params.limit);
     console.log({ page, limit });
@@ -60,13 +62,13 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
-const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+const dameTodo = (req: Request, res: Response) => {
     return User.find()
         .then((users) => res.status(200).json(users))
         .catch((error) => res.status(500).json(error));
 };
 
-const updateUser = async (req: Request, res: Response, next: NextFunction) => {
+const updateUser = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const { name, password, email, newPassword } = req.body;
     const user = new User({
@@ -119,7 +121,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error)); */
 };
 
-const updateAsignatura = async (req: Request, res: Response, next: NextFunction) => {
+const updateAsignatura = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const { name, password, email, asignatura} = req.body;
     const user = new User({
@@ -134,7 +136,7 @@ const updateAsignatura = async (req: Request, res: Response, next: NextFunction)
                 .catch((error) => res.status(500).json(error));
 };
 
-const updateImage = async (req: Request, res: Response, next: NextFunction) => {
+const updateImage = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const { name, password, email, image} = req.body;
     const user = new User({
@@ -149,7 +151,7 @@ const updateImage = async (req: Request, res: Response, next: NextFunction) => {
                 .catch((error) => res.status(500).json(error));
 };
 
-const deleteUser = (req: Request, res: Response, next: NextFunction) => {
+const deleteUser = (req: Request, res: Response) => {
     const userId = req.params.userId;
 
     return User.findByIdAndDelete(userId)
@@ -157,7 +159,7 @@ const deleteUser = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const login = async (req: Request, res: Response, next: NextFunction) =>{
+const login = async (req: Request, res: Response) =>{
     const { name, password } = req.body;
     const user = await User.findOne({name});
     if (!user) {
@@ -173,7 +175,7 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
     return res.json({ auth: true, token, user});       
 }
 
-const registerGoogleUser = async (req: Request, res: Response, next: NextFunction) => {
+const registerGoogleUser = async (req: Request, res: Response) => {
     const { name, password, email, asignatura, rol, image } = req.body;
 
     const user = new User({

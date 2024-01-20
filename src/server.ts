@@ -62,10 +62,10 @@ const StartServer = () => {
 
 
     /* Healthcheck */
-    router.get('/ping', (req, res, next) => res.status(200).json({ message: 'pong' }));
+    router.get('/ping', (req, res) => res.status(200).json({ message: 'pong' }));
 
     /* Error handling */
-    router.use((req, res, next) => {
+    router.use((req, res) => {
         const error = new Error('not found');
         Logging.error(error);
 

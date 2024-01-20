@@ -1,8 +1,9 @@
-import { NextFunction, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Activity from '../models/Activity'; // Assuming you have an Activity model
 
-const createActivity = (req: Request, res: Response, next: NextFunction) => {
+const createActivity = (req: Request, res: Response) => {
     const { lat, long, name, day, time } = req.body;
 
     const activity = new Activity({
@@ -20,7 +21,7 @@ const createActivity = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const readActivity = (req: Request, res: Response, next: NextFunction) => {
+const readActivity = (req: Request, res: Response) => {
     const activityId = req.params.activityId;
 
     return Activity.findById(activityId)
@@ -42,7 +43,7 @@ async function paginate(page: number, limit: number): Promise<any> {
     }
 }
 
-const readAll = async (req: Request, res: Response, next: NextFunction) => {
+const readAll = async (req: Request, res: Response) => {
     const page = parseInt(req.params.page);
     const limit = parseInt(req.params.limit);
     // Check if page and limit are valid numbers
@@ -53,7 +54,7 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
-const deleteActivity = (req: Request, res: Response, next: NextFunction) => {
+const deleteActivity = (req: Request, res: Response) => {
     const activityId = req.params.activityId;
 
     return Activity.findByIdAndDelete(activityId)
@@ -61,7 +62,7 @@ const deleteActivity = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const getAllActivities = (req: Request, res: Response, next: NextFunction) => {
+const getAllActivities = (req: Request, res: Response) => {
     return Activity.find()
         .then((activities) => res.status(200).json(activities))
         .catch((error) => res.status(500).json(error));
