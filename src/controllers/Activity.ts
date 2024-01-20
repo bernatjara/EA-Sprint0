@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Activity from '../models/Activity'; // Assuming you have an Activity model
-import jwt from 'jsonwebtoken';
 
 const createActivity = (req: Request, res: Response, next: NextFunction) => {
     const { lat, long, name, day, time } = req.body;

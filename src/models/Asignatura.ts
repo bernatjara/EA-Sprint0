@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
 import { ISchedule } from './Schedule';
-import { number } from 'joi';
 
 export interface IAsignatura {
     name: string;
