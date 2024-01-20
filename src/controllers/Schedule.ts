@@ -64,6 +64,12 @@ const dameTodo = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 }
 
+const dameTodoSinYear = (req: Request, res: Response, next: NextFunction) => {
+    return Schedule.find()
+        .then((schedules) => res.status(200).json(schedules))
+        .catch((error) => res.status(500).json(error));
+}
+
 const updateSchedule = (req: Request, res: Response, next: NextFunction) => {
     return Schedule.findByIdAndUpdate(req.params.scheduleId, {
         name: req.body.name,
@@ -137,4 +143,4 @@ const getScheduleOfAsignatura = async (req: Request, res: Response) => {
 };
 
 
-export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura, getAllSchedulesByUser };
+export default { createSchedule, readSchedule, readAll, dameTodo, updateSchedule, deleteSchedule, getScheduleOfAsignatura, getAllSchedulesByUser, dameTodoSinYear };
