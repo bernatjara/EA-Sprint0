@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Message from '../models/Message';
 
-const createMessage = (req: Request, res: Response, next: NextFunction) => {
+const createMessage = (req: Request, res: Response) => {
     const {idUser, senderName, message} = req.body;
 
     const data = new Message({
@@ -18,7 +18,7 @@ const createMessage = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 }
 
-const readMessage = (req: Request, res: Response, next: NextFunction) => {
+const readMessage = (req: Request, res: Response) => {
     const messageId = req.params.messageId;
 
     return Message.findById(messageId)
@@ -26,13 +26,13 @@ const readMessage = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 }
 
-const readAll = (req: Request, res: Response, next: NextFunction) => {
+const readAll = (req: Request, res: Response) => {
     return Message.find()
         .then((messages) => res.status(200).json(messages))
         .catch((error) => res.status(500).json(error));
 }
 
-const updateMessage = (req: Request, res: Response, next: NextFunction) => {
+const updateMessage = (req: Request, res: Response) => {
     const messageId = req.params.messageId;
     return Message.findById(messageId)
         .then((message) => {
@@ -50,7 +50,7 @@ const updateMessage = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 }
 
-const deleteMessage = (req: Request, res: Response, next: NextFunction) => {
+const deleteMessage = (req: Request, res: Response) => {
     const messageId = req.params.messageId;
     return Message.findByIdAndDelete(messageId)
         .then((message) => (message ? res.status(200).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))

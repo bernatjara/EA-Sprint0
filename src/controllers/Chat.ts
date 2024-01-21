@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Chat from '../models/Chat';
 import Asignatura from '../models/Asignatura';
 import Message from '../models/Message';
 import asignaturaController from '../controllers/Asignatura'
 
-const createChat = async (req: Request, res: Response, next: NextFunction) => {
+const createChat = async (req: Request, res: Response) => {
     const {roomId, conversation} = req.body;
 
     const chat = new Chat({
@@ -29,7 +29,7 @@ const createChat = async (req: Request, res: Response, next: NextFunction) => {
 
 }
 
-const readChat = (req: Request, res: Response, next: NextFunction) => {
+const readChat = (req: Request, res: Response) => {
     const chatId = req.params.chatId;
 
     return Chat.findById(chatId)
@@ -38,7 +38,7 @@ const readChat = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 }
 
-const updateChat = async (req: Request, res: Response, next: NextFunction) => {
+const updateChat = async (req: Request, res: Response) => {
     const chatId = req.params.chatId;
     const {roomId, idUser, senderName, message} = req.body; //id de la asignatura
     // primero buscamos la asignatura y que el chat exista.
@@ -71,7 +71,7 @@ const updateChat = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-const deleteChat = (req: Request, res: Response, next: NextFunction) => {
+const deleteChat = (req: Request, res: Response) => {
     const chatId = req.params.chatId;
     return Chat.findByIdAndDelete(chatId)
         .then((chat) => (chat ? res.status(200).json({ message: 'Chat deleted' }) : res.status(404).json({ message: 'Chat not found' })))
