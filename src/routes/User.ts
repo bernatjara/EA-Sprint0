@@ -15,5 +15,6 @@ router.put('/update/:userId', ValidateSchema(Schemas.user.update), verifyToken, 
 router.put('/editAsignaturas/:userId', ValidateSchema(Schemas.user.update), verifyToken, controller.updateAsignatura) //fet
 router.put('/updateImage/:userId', ValidateSchema(Schemas.user.update), verifyToken, controller.updateImage); //fet
 router.delete('/:userId', controller.deleteUser);
+router.post('/validateToken/:userId', verifyToken, controller.validateToken);
 
 export = router;

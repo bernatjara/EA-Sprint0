@@ -149,6 +149,11 @@ const updateImage = async (req: Request, res: Response, next: NextFunction) => {
                 .catch((error) => res.status(500).json(error));
 };
 
+const validateToken = async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.params.userId;
+    return User.findById(userId).then((userOut) => (userOut ? res.status(200).json(userOut) : res.status(404).json({ message: 'Not found' })))
+    .catch((error) => res.status(500).json(error));
+};
 const deleteUser = (req: Request, res: Response, next: NextFunction) => {
     const userId = req.params.userId;
 
@@ -168,7 +173,7 @@ const login = async (req: Request, res: Response, next: NextFunction) =>{
       return res.status(401).json({ auth: false, token: null });
     }
     const token = jwt.sign({ id: user._id, rol: user.rol}, passToken, {
-      expiresIn: 60 * 60 * 24,
+      expiresIn: 7 * 60 * 60 * 24,
     });
     return res.json({ auth: true, token, user});       
 }
@@ -192,4 +197,4 @@ const registerGoogleUser = async (req: Request, res: Response, next: NextFunctio
         .catch((error) => res.status(500).json(error));
 };
 
-export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura, updateImage, registerGoogleUser };
+export default { createUser, readUser, readAll, updateUser, deleteUser, dameTodo, login, updateAsignatura, updateImage, registerGoogleUser, validateToken };
