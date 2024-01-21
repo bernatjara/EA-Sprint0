@@ -8,6 +8,9 @@ import asignaturaRoutes from './routes/Asignatura';
 import scheduleRoutes from './routes/Schedule';
 import newsRoutes from './routes/News';
 import activityRoutes from './routes/Activity';
+import chatRoutes from './routes/Chat';
+import messageRoutes from './routes/Message';
+import { Server } from 'socket.io';
 
 const router = express();
 
@@ -60,6 +63,8 @@ const StartServer = () => {
     router.use('/activities', activityRoutes);
 
 
+    router.use('/chats', chatRoutes);
+    router.use('/messages', messageRoutes);
 
     /* Healthcheck */
     router.get('/ping', (req, res) => res.status(200).json({ message: 'pong' }));
@@ -72,25 +77,36 @@ const StartServer = () => {
         return res.status(404).json({ message: error.message });
     });
 
-    /* const server = http.createServer(router);
+    const server = http.createServer(router);
     const io = new Server(server);
 
+    const connectedUsers: { [room: string]: Set<string> } = {};
+
     io.on('connection', (socket) => {
-        Logging.info('A user connected: ' + socket.id);
-
-        socket.on('chatMessage', (msg) => {
-            Logging.info(`Message: ${msg}`);
-            io.emit('chatMessage', msg);
+        console.log('backend connected');
+        socket.on('join-room', (room) => {
+            socket.join(room);
+            if (!connectedUsers[room]) {
+                connectedUsers[room] = new Set();
+            }
+            connectedUsers[room].add(socket.id);
+            io.to(room).emit('connected-users', connectedUsers[room].size);
         });
-
+        socket.on('message', (data) => {
+            const { room, userId,senderName, message } = data;
+            console.log('msg ', data);
+            io.to(room).emit('message', { idUser: userId,senderName: senderName, message: message });
+        });
         socket.on('disconnect', () => {
-            Logging.info('User disconnected: ' + socket.id);
+            for (const room in connectedUsers) {
+                if (connectedUsers[room].has(socket.id)) {
+                    connectedUsers[room].delete(socket.id);
+                    io.to(room).emit('connected-users', connectedUsers[room].size);
+                    break;
+                }
+            }
         });
     });
 
-    server.listen(config.server.port, () => {
-        Logging.info(`Server is running on port ${config.server.port}`);
-    }); */
-
-    http.createServer(router).listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}.`));
+    server.listen(config.server.port, () => Logging.info(`Server is running on port ${config.server.port}.`));
 };

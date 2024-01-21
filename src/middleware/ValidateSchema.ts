@@ -6,6 +6,8 @@ import { ISchedule } from '../models/Schedule';
 import { IAsignatura } from '../models/Asignatura';
 import { INews } from '../models/News';
 import { IActivity } from '../models/Activity';
+import { IChat } from '../models/Chat';
+import { IMessage } from '../models/Message';
 
 export const ValidateSchema = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {
@@ -61,6 +63,7 @@ export const Schemas = {
         create: Joi.object<IAsignatura>({
             name: Joi.string().required(),
             schedule: Joi.array(),
+            chat: Joi.string(),
         }),
         update: Joi.object<IAsignatura>({
             name: Joi.string().required(),
@@ -102,4 +105,22 @@ export const Schemas = {
         
         })
     },
+    chat:{
+        create: Joi.object<IChat>({
+            roomId: Joi.string().required(),
+            conversation: Joi.array()
+        }),
+    },
+    message: {
+        create: Joi.object<IMessage>({
+            idUser: Joi.string().length(24).hex().required(),
+            senderName: Joi.string().required(),
+            message: Joi.string().required()
+        }),
+        update: Joi.object<IMessage>({
+            idUser: Joi.string().length(24).hex().required(),
+            senderName: Joi.string().required(),
+            message: Joi.string().required()
+        })
+    }
 };
