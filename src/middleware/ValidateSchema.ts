@@ -89,6 +89,7 @@ export const Schemas = {
             name: Joi.string().required(),
             day: Joi.string().required(),
             time: Joi.string().required(),
+            location: Joi.string().required(),
         
         }),
         update: Joi.object<IActivity>({
@@ -97,6 +98,7 @@ export const Schemas = {
             name: Joi.string().required(),
             day: Joi.string().required(),
             time: Joi.string().required(),
+            location: Joi.string().required(),
         
         })
     },

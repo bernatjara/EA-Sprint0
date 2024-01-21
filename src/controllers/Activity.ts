@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import Activity from '../models/Activity'; // Assuming you have an Activity model
 
 const createActivity = (req: Request, res: Response) => {
-    const { lat, long, name, day, time } = req.body;
+    const { lat, long, name, day, time, location } = req.body;
 
     const activity = new Activity({
         _id: new mongoose.Types.ObjectId(),
@@ -12,7 +12,8 @@ const createActivity = (req: Request, res: Response) => {
         long,
         name,
         day,
-        time
+        time,
+        location
     });
 
     return activity

@@ -5,7 +5,8 @@ export interface IActivity {
     long: number;
     name: string;
     day: string;
-    time: string,
+    time: string;
+    location: string;
 }
 
 export interface IActivityModel extends IActivity, Document {}
@@ -16,7 +17,8 @@ const ActivitySchema: Schema = new Schema(
         long: { type: Number, required: true },
         name: { type: String, required: true },
         day: { type: String, required: true },
-        time: { type: String, required: true}
+        time: { type: String, required: true},
+        location: { type: String, required: true}
     },
     {
         versionKey: false
