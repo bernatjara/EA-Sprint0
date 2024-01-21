@@ -1,7 +1,6 @@
 import express from 'express';
 import controller from '../controllers/Activity';
 import { Schemas, ValidateSchema } from '../middleware/ValidateSchema';
-import verifyToken from '../middleware/verifyToken';
 
 const router = express.Router();
 

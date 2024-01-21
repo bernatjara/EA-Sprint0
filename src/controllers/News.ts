@@ -1,8 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import News from '../models/News';
 
-const createNews = (req: Request, res: Response, next: NextFunction) => {
+const createNews = (req: Request, res: Response) => {
     const { title, imageUrl, content, mes } = req.body;
 
     const news = new News({
@@ -19,7 +21,7 @@ const createNews = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const readNews = (req: Request, res: Response, next: NextFunction) => {
+const readNews = (req: Request, res: Response) => {
     const newsId = req.params.newsId;
     return  News.findById(newsId)
         .then((news) => (news ? res.status(200).json(news) : res.status(404).json({ message: 'Not found' })))
@@ -40,7 +42,7 @@ async function paginate(page: number, limit: number): Promise<any> {
         return err;
     }
 }
-const readAll = async (req: Request, res: Response, next: NextFunction) => {
+const readAll = async (req: Request, res: Response) => {
     const page = parseInt(req.params.page);
     const limit = parseInt(req.params.limit);
     console.log({ page, limit });
@@ -54,13 +56,13 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
-const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+const dameTodo = (req: Request, res: Response) => {
     return News.find()
         .then((newss) => res.status(200).json(newss))
         .catch((error) => res.status(500).json(error));
 }
 
-const deleteNews = (req: Request, res: Response, next: NextFunction) => {
+const deleteNews = (req: Request, res: Response) => {
     const newsId = req.params.newsId;
     console.log(newsId);
 
@@ -68,7 +70,7 @@ const deleteNews = (req: Request, res: Response, next: NextFunction) => {
         .then((news) => (news ? res.status(200).json({ message: 'Deleted' }) : res.status(404).json({ message: 'Not found' })))
         .catch((error) => res.status(500).json(error));
 }
-const updateNews = async (req: Request, res: Response, next: NextFunction) => {
+const updateNews = async (req: Request, res: Response) => {
     const newsId = req.params.newsId;
     const { newTitle, title, imageUrl, content, mes } = req.body;
     console.log(title);
@@ -98,7 +100,7 @@ const updateNews = async (req: Request, res: Response, next: NextFunction) => {
         }
     }        
 }
-const createComment = async (req: Request, res: Response, next: NextFunction) => {
+const createComment = async (req: Request, res: Response) => {
     const newsId = req.params.newsId;
     const { username, text, rating, dia } = req.body;
 

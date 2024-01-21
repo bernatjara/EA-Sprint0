@@ -1,9 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Asignatura from '../models/Asignatura';
 import User from '../models/User';
 
-const createAsignatura = (req: Request, res: Response, next: NextFunction) => {
+const createAsignatura = (req: Request, res: Response) => {
     const { name, schedule } = req.body;
 
     const asignatura = new Asignatura({
@@ -18,7 +20,7 @@ const createAsignatura = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const readAsignatura = (req: Request, res: Response, next: NextFunction) => {
+const readAsignatura = (req: Request, res: Response) => {
     const asignaturaId = req.params.asignaturaId;
 
     return Asignatura.findById(asignaturaId)
@@ -40,7 +42,7 @@ async function paginate(page: number, limit: number): Promise<any> {
     }
 }
 
-const readAll = async (req: Request, res: Response, next: NextFunction) => {
+const readAll = async (req: Request, res: Response) => {
     const page = parseInt(req.params.page);
     const limit = parseInt(req.params.limit);
     // Comprueba si page y limit son números válidos
@@ -51,13 +53,13 @@ const readAll = async (req: Request, res: Response, next: NextFunction) => {
     res.send(response);
 };
 
-const dameTodo = (req: Request, res: Response, next: NextFunction) => {
+const dameTodo = (req: Request, res: Response) => {
     return Asignatura.find()
         .then((asignaturas) => res.status(200).json(asignaturas))
         .catch((error) => res.status(500).json(error));
 };
 
-const updateAsignatura = (req: Request, res: Response, next: NextFunction) => {
+const updateAsignatura = (req: Request, res: Response) => {
     const asignaturaId = req.params.asignaturaId;
 
     return Asignatura.findById(asignaturaId)
@@ -76,7 +78,7 @@ const updateAsignatura = (req: Request, res: Response, next: NextFunction) => {
         .catch((error) => res.status(500).json(error));
 };
 
-const deleteAsignatura = (req: Request, res: Response, next: NextFunction) => {
+const deleteAsignatura = (req: Request, res: Response) => {
     const asignaturaId = req.params.asignaturaId;
 
     return Asignatura.findByIdAndDelete(asignaturaId)

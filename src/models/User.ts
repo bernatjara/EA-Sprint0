@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IAsignatura } from './Asignatura';
 import bcrypt from 'bcrypt';
 
