@@ -85,18 +85,20 @@ export const Schemas = {
             roomId: Joi.string().required(),
             conversation: Joi.array()
         }),
-        update: Joi.object<IChat>({
+        /* update: Joi.object<IChat>({
             roomId: Joi.string().required(),
-            conversation: Joi.array()
-        })
+            conversation: Joi.array(),
+        }) */
     },
     message: {
         create: Joi.object<IMessage>({
             idUser: Joi.string().length(24).hex().required(),
+            senderName: Joi.string().required(),
             message: Joi.string().required()
         }),
         update: Joi.object<IMessage>({
             idUser: Joi.string().length(24).hex().required(),
+            senderName: Joi.string().required(),
             message: Joi.string().required()
         })
     }

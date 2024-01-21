@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Asignatura from '../models/Asignatura';
 import User from '../models/User';
+import { IChat } from '../models/Chat';
 
 const createAsignatura = (req: Request, res: Response, next: NextFunction) => {
     const { name, schedule, chat } = req.body;
@@ -110,4 +111,19 @@ const getAsignaturasOfUser = async (req: Request, res: Response) => {
     }
 };
 
-export default { createAsignatura, readAsignatura, readAll, dameTodo, updateAsignatura, deleteAsignatura, getAsignaturasOfUser };
+const addChatToAsignatura = async (asignaturaId: string, chatId: IChat) => {
+    
+    const asignatura = await Asignatura.findById(asignaturaId);
+    if(!asignatura){
+        return;
+    }
+    else {
+        asignatura.chat = chatId;
+        const updatedAsignatura = await asignatura.save();
+        return updatedAsignatura;
+    }
+    
+}
+
+
+export default { createAsignatura, readAsignatura, readAll, dameTodo, updateAsignatura, deleteAsignatura, getAsignaturasOfUser, addChatToAsignatura };

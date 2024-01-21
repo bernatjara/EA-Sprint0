@@ -3,8 +3,9 @@ import mongoose from 'mongoose';
 import Chat from '../models/Chat';
 import Asignatura from '../models/Asignatura';
 import Message from '../models/Message';
+import asignaturaController from '../controllers/Asignatura'
 
-const createChat = (req: Request, res: Response, next: NextFunction) => {
+const createChat = async (req: Request, res: Response, next: NextFunction) => {
     const {roomId, conversation} = req.body;
 
     const chat = new Chat({
@@ -13,10 +14,19 @@ const createChat = (req: Request, res: Response, next: NextFunction) => {
         conversation
     });
 
-    return chat
-        .save()
-        .then((chat) => res.status(200).json(chat))
-        .catch((error) => res.status(500).json(error));
+    try {
+        const savedChat = await chat.save();
+        const updatedAsignatura = await asignaturaController.addChatToAsignatura(roomId, savedChat._id);
+
+        if(updatedAsignatura){
+            return res.status(200).json(savedChat);
+        }else {
+            return res.status(500).json({ message: 'Chat no guardado' });
+        }
+    }catch (err){
+        return res.status(500).json(err);
+    }
+
 }
 
 const readChat = (req: Request, res: Response, next: NextFunction) => {
@@ -30,10 +40,7 @@ const readChat = (req: Request, res: Response, next: NextFunction) => {
 
 const updateChat = async (req: Request, res: Response, next: NextFunction) => {
     const chatId = req.params.chatId;
-    const roomId = req.body; //id de la asignatura
-    const idUser = req.body; //id del usuario
-    const message = req.body; //mensaje a guardar
-
+    const {roomId, idUser, senderName, message} = req.body; //id de la asignatura
     // primero buscamos la asignatura y que el chat exista.
 
     const asignatura = await Asignatura.findById(roomId);
@@ -49,6 +56,7 @@ const updateChat = async (req: Request, res: Response, next: NextFunction) => {
             const mensaje = new Message({
                 _id: new mongoose.Types.ObjectId(),
                 idUser,
+                senderName,
                 message
             })
 

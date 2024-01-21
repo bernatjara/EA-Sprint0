@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', ValidateSchema(Schemas.chat.create), controller.createChat);
 router.get('/:chatId', controller.readChat);
-router.put('/:chatId', ValidateSchema(Schemas.chat.update), controller.updateChat);
+router.put('/:chatId', controller.updateChat);
 router.delete('/:chatId', controller.deleteChat);
 
 export = router;
